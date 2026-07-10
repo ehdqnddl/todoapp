@@ -25,6 +25,7 @@ function saveTodos(todos, storage = localStorage) {
 function addTodo(todos, text, category) {
   const trimmed = text.trim();
   if (!trimmed) return todos;
+  if (!VALID_CATEGORIES.includes(category)) return todos;
   const newTodo = {
     id: generateId(),
     text: trimmed,
