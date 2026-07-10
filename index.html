@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>할 일 관리</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="할일" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="header-top">
+        <time class="today-date" id="today-date"></time>
+        <span class="progress-summary" id="progress-summary">0 / 0</span>
+      </div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar">
+        <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%"></div>
+      </div>
+    </header>
+
+    <nav class="category-tabs" aria-label="카테고리 필터">
+      <button type="button" class="tab active" data-category="전체">
+        <span class="tab-label">전체</span>
+        <span class="tab-count" data-count-for="전체">0/0</span>
+      </button>
+      <button type="button" class="tab" data-category="업무">
+        <span class="tab-label">업무</span>
+        <span class="tab-count" data-count-for="업무">0/0</span>
+      </button>
+      <button type="button" class="tab" data-category="개인">
+        <span class="tab-label">개인</span>
+        <span class="tab-count" data-count-for="개인">0/0</span>
+      </button>
+      <button type="button" class="tab" data-category="공부">
+        <span class="tab-label">공부</span>
+        <span class="tab-count" data-count-for="공부">0/0</span>
+      </button>
+    </nav>
+
+    <form class="todo-input" id="todo-form">
+      <input
+        type="text"
+        class="todo-text-input"
+        placeholder="할 일을 입력하세요"
+        aria-label="할 일 내용"
+      />
+      <select class="todo-category-select" aria-label="카테고리 선택">
+        <option value="업무">업무</option>
+        <option value="개인">개인</option>
+        <option value="공부">공부</option>
+      </select>
+      <button type="submit" class="add-button">추가</button>
+    </form>
+
+    <main class="todo-list-section">
+      <ul class="todo-list" id="todo-list"></ul>
+      <div class="empty-state" id="empty-state">
+        <p>아직 할 일이 없어요.</p>
+        <p>위에서 새로운 할 일을 추가해보세요.</p>
+      </div>
+    </main>
+
+    <footer class="data-toolbar">
+      <button type="button" class="toolbar-button" id="export-button">내보내기</button>
+      <button type="button" class="toolbar-button" id="import-button">가져오기</button>
+      <input type="file" id="import-file-input" accept="application/json" hidden />
+    </footer>
+  </div>
+
+  <div class="snackbar" id="snackbar" hidden role="status">
+    <span class="snackbar-message">삭제됨</span>
+    <button type="button" class="snackbar-undo" id="snackbar-undo">취소</button>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
