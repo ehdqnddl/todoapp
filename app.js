@@ -59,6 +59,11 @@ function toggleTodo(todos, id) {
   return todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
 }
 
+function changeTodoCategory(todos, id, newCategory) {
+  if (!VALID_CATEGORIES.includes(newCategory)) return todos;
+  return todos.map((todo) => (todo.id === id ? { ...todo, category: newCategory } : todo));
+}
+
 function filterTodosByCategory(todos, category) {
   if (category === '전체') return todos;
   return todos.filter((todo) => todo.category === category);
@@ -212,10 +217,18 @@ if (typeof document !== 'undefined') {
     checkbox.setAttribute('aria-label', '완료 여부');
     checkbox.addEventListener('change', () => handleToggle(todo.id));
 
-    const categoryTag = document.createElement('span');
-    categoryTag.className = 'todo-category-tag';
-    categoryTag.dataset.category = todo.category;
-    categoryTag.textContent = todo.category;
+    const categorySelect = document.createElement('select');
+    categorySelect.className = 'todo-category-tag';
+    categorySelect.dataset.category = todo.category;
+    categorySelect.setAttribute('aria-label', '카테고리 변경');
+    for (const category of VALID_CATEGORIES) {
+      const option = document.createElement('option');
+      option.value = category;
+      option.textContent = category;
+      if (category === todo.category) option.selected = true;
+      categorySelect.append(option);
+    }
+    categorySelect.addEventListener('change', () => handleCategoryChange(todo.id, categorySelect.value));
 
     const textEl = document.createElement('span');
     textEl.className = 'todo-text';
@@ -230,12 +243,18 @@ if (typeof document !== 'undefined') {
     deleteBtn.textContent = '×';
     deleteBtn.addEventListener('click', () => handleDelete(todo.id));
 
-    li.append(checkbox, categoryTag, textEl, deleteBtn);
+    li.append(checkbox, categorySelect, textEl, deleteBtn);
     return li;
   }
 
   function handleToggle(id) {
     todos = toggleTodo(todos, id);
+    saveTodos(todos);
+    renderTodos(todos);
+  }
+
+  function handleCategoryChange(id, newCategory) {
+    todos = changeTodoCategory(todos, id, newCategory);
     saveTodos(todos);
     renderTodos(todos);
   }
@@ -388,6 +407,7 @@ export {
   deleteTodo,
   restoreTodo,
   toggleTodo,
+  changeTodoCategory,
   filterTodosByCategory,
   sortTodosForDisplay,
   computeProgress,

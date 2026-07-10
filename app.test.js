@@ -13,6 +13,7 @@ import {
   deleteTodo,
   restoreTodo,
   toggleTodo,
+  changeTodoCategory,
   filterTodosByCategory,
   sortTodosForDisplay,
   computeProgress,
@@ -260,6 +261,39 @@ test('toggleTodo leaves the array unchanged when the id does not exist', () => {
     { id: '1', text: 'a', category: '업무', completed: false, createdAt: 'x', order: 0 },
   ];
   assert.deepEqual(toggleTodo(todos, 'missing'), todos);
+});
+
+// --- changeTodoCategory ---
+
+test('changeTodoCategory updates the category of the matching todo', () => {
+  const todos = [
+    { id: '1', text: 'a', category: '업무', completed: false, createdAt: 'x', order: 0 },
+  ];
+  const result = changeTodoCategory(todos, '1', '개인');
+  assert.equal(result[0].category, '개인');
+});
+
+test('changeTodoCategory leaves other todos untouched', () => {
+  const todos = [
+    { id: '1', text: 'a', category: '업무', completed: false, createdAt: 'x', order: 0 },
+    { id: '2', text: 'b', category: '업무', completed: false, createdAt: 'x', order: 1 },
+  ];
+  const result = changeTodoCategory(todos, '1', '공부');
+  assert.equal(result[1].category, '업무');
+});
+
+test('changeTodoCategory leaves the array unchanged when the id does not exist', () => {
+  const todos = [
+    { id: '1', text: 'a', category: '업무', completed: false, createdAt: 'x', order: 0 },
+  ];
+  assert.deepEqual(changeTodoCategory(todos, 'missing', '개인'), todos);
+});
+
+test('changeTodoCategory leaves the array unchanged when the new category is invalid', () => {
+  const todos = [
+    { id: '1', text: 'a', category: '업무', completed: false, createdAt: 'x', order: 0 },
+  ];
+  assert.deepEqual(changeTodoCategory(todos, '1', '취미'), todos);
 });
 
 // --- filterTodosByCategory ---
