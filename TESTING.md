@@ -34,8 +34,8 @@
 3. UI(버튼, 입력, 드롭다운, 체크박스 등)가 추가/변경됐는가?
    - [ ] `e2e/` 아래 적절한 스펙 파일(없으면 새 파일)에 시나리오 추가
    - [ ] `npx playwright test`로 통과 확인
-4. `service-worker.js`의 `APP_SHELL` 목록에 새 정적 파일(아이콘, 새 JS/CSS 등)이 추가됐는가?
-   - [ ] `CACHE_NAME` 버전을 올린다 (`v3` → `v4` 등)
+4. `APP_SHELL`에 포함된 파일(`index.html`, `style.css`, `app.js`, `manifest.json`, 아이콘 등) 중 **내용이 하나라도** 바뀌었는가? (새 파일을 목록에 추가한 경우뿐 아니라, 기존 파일 내용만 수정한 경우도 포함)
+   - [ ] `CACHE_NAME` 버전을 올린다 (`v3` → `v4` 등) — 캐시가 cache-first 전략이라 버전을 안 올리면 이미 설치된 사용자는 새 내용을 영영 받지 못한다
    - [ ] `app.test.js`의 manifest/service-worker 관련 테스트가 여전히 통과하는지 확인
 5. 커밋 전 최종 확인: `npm run test:all` 전체 통과
 6. GitHub Pages는 정적 파일만 배포하므로, `e2e/`, `playwright.config.js`, `serve.mjs`, `node_modules/`는 배포에 영향을 주지 않는다 (배포되어도 무해하지만 굳이 필요하지도 않음).
